@@ -122,7 +122,7 @@ module.exports = {
     {
       resolve: 'gatsby-theme-codex',
       options: {
-        codexPath: '/custom-path' // make sure to include to forward slash! '/'
+        codexPath: '/custom-path' // make sure to include the forward slash! '/'
       }
     }
   ]
