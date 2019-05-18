@@ -26,7 +26,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
                 relativePath
                 relativeDirectory
                 sourceInstanceName
-                birthTime(formatString: "MMM DD YYYY")
               }
             }
           }
@@ -84,7 +83,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         path: entry.url,
         context: {
           title: entry.parent.name,
-          created: entry.parent.birthTime,
           topic: {
             name: capitalizedTopicName,
             url: topicUrl
