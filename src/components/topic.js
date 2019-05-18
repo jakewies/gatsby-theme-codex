@@ -9,8 +9,8 @@ function Topic({ name, entries }) {
       </header>
       <ul>
         {entries.map(entry => (
-          <li key={entry.name}>
-            <Link to={entry.url}>/{entry.name}.md</Link>
+          <li key={entry.title}>
+            <Link to={entry.url}>/{entry.title}.md</Link>
           </li>
         ))}
       </ul>
