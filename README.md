@@ -5,12 +5,12 @@ A Gatsby theme to bootstrap your own digital codex.
 - [Motivation](#motivation)
   - [Why build stock anyway?](#why-build-stock-anyway)
   - [Why call it a codex?](#why-call-it-a-codex)
+  - [Other solutions](#other-solutions)
 - [Getting started](#getting-started)
-
-  - [Configuration options](#configuration-options)
   - [Folder structure](#folder-structure)
+  - [Configuration options](#configuration-options)
 
-  **_Note_**: _Gatsby themes are an experimental feature. Proceed with caution!_ ⚠️
+**_Note_**: _Gatsby themes are an experimental feature. Proceed with caution!_ ⚠️
 
 ## Motivation
 
@@ -30,6 +30,10 @@ I take a lot of notes on just about everything. You might do the same, whether i
 
 This is just my name choice for a digital garden. It's inspired by Leonardo Da Vinci, who was esteemed for his detailed notebooks.
 
+### Other solutions
+
+[John Otander](https://github.com/johno) is building a project called [gatsby-theme-digital-garden](https://github.com/johno/digital-garden) that I highly recommend you check out if you are at all interested in this concept. [His livestream with Jason Lengstorf](https://www.youtube.com/watch?v=PS2784YfPpw) on Gatsby themes was super helpful, and he's building a much more robust version of a digital garden than this project. I decided to roll my own for learning purposes / less requirements / quicker turnaround.
+
 ## Getting started
 
 ```
@@ -40,11 +44,7 @@ yarn add gatsby-theme-codex gatsby react react-dom
 npm install gatsby-theme-codex gatsby react react-dom
 ```
 
-### Configuration options
-
-#### `src`
-
-In your `gatsby-config.js` file:
+Add the following to your `gatsby-config.js` file:
 
 ```js
 // gatsby-config.js
@@ -54,7 +54,7 @@ module.exports = {
 }
 ```
 
-Next, create a `codex` directory at the root of your project:
+Finally, create a `codex` directory at the root of your project:
 
 ```
 codex/
@@ -62,7 +62,24 @@ gatsby-config.js
 package.json
 ```
 
-This is the default behavior, however, you can optionally tell `gatsby-theme-codex` where your entries are by adding a `src` option. This is helpful if you don't want to have a `codex` directory at the root of your project, or if you want to name it something different:
+### Folder structure
+
+The codex has the following structure:
+
+```
+codex/
+├── topic-name/
+    └── entry-name-1.md
+    └── entry-name-2.mdx
+```
+
+`gatsby-theme-codex` supports entries as `.md` or `.mdx` files.
+
+### Configuration options
+
+#### `src`
+
+You can optionally tell `gatsby-theme-codex` where your entries are by adding a `src` option. This is helpful if you don't want to have a `codex` directory at the root of your project, or if you want to name it something different:
 
 ```
 src/
@@ -106,16 +123,3 @@ module.exports = {
 ```
 
 The example above would render your content at `www.yoursite.com/custom-path/:topic/:entry`.
-
-### Folder structure
-
-The codex has the following structure:
-
-```
-codex/
-├── topic/
-    └── entry-1.md
-    └── entry-2.mdx
-```
-
-`gatsby-theme-codex` supports entries as `.md` or `.mdx` files.
