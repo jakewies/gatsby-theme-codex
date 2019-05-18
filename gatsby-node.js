@@ -20,6 +20,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       codex: allMdx {
         edges {
           node {
+            id
             parent {
               ... on File {
                 name
@@ -82,6 +83,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       createPage({
         path: entry.url,
         context: {
+          id: entry.id,
           title: entry.parent.name,
           topic: {
             name: capitalizedTopicName,
