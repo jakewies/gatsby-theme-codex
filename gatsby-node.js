@@ -21,9 +21,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         edges {
           node {
             id
-            frontmatter {
-              title
-            }
             parent {
               ... on File {
                 name
@@ -99,9 +96,9 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       path: topicUrl,
       context: {
         name: capitalizedTopicName,
-        entries: entries.map(({ id, frontmatter, parent, url }) => ({
+        entries: entries.map(({ id, parent, url }) => ({
           id,
-          title: frontmatter.title,
+          title: parent.name,
           updatedAt: parent.modifiedTime,
           url
         }))
@@ -115,7 +112,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         path: entry.url,
         context: {
           id: entry.id,
-          title: entry.frontmatter.title,
+          title: entry.parent.name,
           created: entry.parent.birthTime,
           updated: entry.parent.modifiedTime,
           topic: {
