@@ -72,7 +72,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       context: {
         name: capitalizedTopicName,
         entries: entries.map(({ parent, url }) => ({
-          title: parent.name,
+          name: parent.name,
           url
         }))
       },
@@ -84,7 +84,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         path: entry.url,
         context: {
           id: entry.id,
-          title: entry.parent.name,
+          name: entry.parent.name,
           topic: {
             name: capitalizedTopicName,
             url: topicUrl

@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Entry({ title, children }) {
+function Entry({ name, children }) {
   return (
     <>
-      <h1>{title}</h1>
+      <h1>{name}</h1>
       {children}
     </>
   )

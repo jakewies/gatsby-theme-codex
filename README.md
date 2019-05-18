@@ -160,9 +160,9 @@ The `Topic` component is rendered at `/:codexPath/:topic-name`, and can be shado
 ```ts
 interace Topic {
   name: string;
-  entries: { 
-    title: string; 
-    url: string; 
+  entries: {
+    name: string;
+    url: string;
   }[]
 }
 ```
@@ -174,7 +174,7 @@ The `Entry` component is rendered at `/:codexPath/:topic-name/:entry-name`, and 
 ```ts
 interace Entry {
   children: React.Node;
-  title: string;
+  name: string;
   topic: {
     name: string;
     url: string;
@@ -184,6 +184,6 @@ interace Entry {
 
 ## Project Goals
 
-I plan on evolving this project over time to fit my needs. The goal here is to provide a minimal set of tools that allows the user to create awesome content for themselves, without getting bogged down with features and use cases. 
+I plan on evolving this project over time to fit my needs. The goal here is to provide a minimal set of tools that allows the user to create awesome content for themselves, without getting bogged down with features and use cases.
 
 Features may be added over time, but the goal will always be to let the content shine. The content should be prioritized above all else.
