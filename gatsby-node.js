@@ -21,9 +21,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         edges {
           node {
             id
-            wordCount {
-              words
-            }
             frontmatter {
               title
             }
@@ -102,12 +99,11 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       path: topicUrl,
       context: {
         name: capitalizedTopicName,
-        entries: entries.map(({ id, frontmatter, parent, url, wordCount }) => ({
+        entries: entries.map(({ id, frontmatter, parent, url }) => ({
           id,
           title: frontmatter.title,
           updatedAt: parent.modifiedTime,
-          url,
-          wordCount: wordCount.words
+          url
         }))
       },
       component: Topic
