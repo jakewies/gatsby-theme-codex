@@ -5,10 +5,11 @@ A Gatsby theme to bootstrap your own digital codex.
 - [Motivation](#motivation)
   - [Why build stock anyway?](#why-build-stock-anyway)
   - [Why call it a codex?](#why-call-it-a-codex)
-- [Getting Started](#getting-started)
-  - [Configuration](#configuration)  
-  - [Folder Structure](#folder-structure)
-  
+- [Getting started](#getting-started)
+
+  - [Configuration options](#configuration-options)
+  - [Folder structure](#folder-structure)
+
   **_Note_**: _Gatsby themes are an experimental feature. Proceed with caution!_ ⚠️
 
 ## Motivation
@@ -29,7 +30,7 @@ I take a lot of notes on just about everything. You might do the same, whether i
 
 This is just my name choice for a digital garden. It's inspired by Leonardo Da Vinci, who was esteemed for his detailed notebooks.
 
-## Getting Started
+## Getting started
 
 ```
 yarn add gatsby-theme-codex gatsby react react-dom
@@ -39,7 +40,9 @@ yarn add gatsby-theme-codex gatsby react react-dom
 npm install gatsby-theme-codex gatsby react react-dom
 ```
 
-### Configuration
+### Configuration options
+
+#### `src`
 
 In your `gatsby-config.js` file:
 
@@ -82,6 +85,27 @@ module.exports = {
   ]
 }
 ```
+
+#### `codexPath`
+
+By default, `gatsby-theme-codex` will render your codex at `www.yoursite.com/codex/:topic/:entry`. You can change the codex path by passing a `codexPath` option inside of `gatsby-config.js`:
+
+```js
+// gatsby-config.js
+
+module.exports = {
+  __experimentalThemes: [
+    {
+      resolve: 'gatsby-theme-codex',
+      options: {
+        codexPath: '/custom-path'
+      }
+    }
+  ]
+}
+```
+
+The example above would render your content at `www.yoursite.com/custom-path/:topic/:entry`.
 
 ### Folder structure
 

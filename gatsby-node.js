@@ -6,13 +6,13 @@ const Entry = require.resolve('./src/templates/entry')
 
 exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   const { createPage } = actions
-  const { urlPrefix = '/codex' } = pluginOptions
+  const { codexPath = '/codex' } = pluginOptions
 
   const getTopic = node => path.parse(node.parent.relativePath).dir
 
   const createUrl = node => {
     const topic = getTopic(node)
-    return path.join(urlPrefix, topic, node.parent.name)
+    return path.join(codexPath, topic, node.parent.name)
   }
 
   const result = await graphql(`
@@ -66,7 +66,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   )
 
   topicStore.forEach(([topicName, { entries }]) => {
-    const topicUrl = path.join(urlPrefix, topicName)
+    const topicUrl = path.join(codexPath, topicName)
     const capitalizedTopicName = capitalize(topicName)
 
     createPage({
@@ -100,11 +100,11 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   })
 
   createPage({
-    path: urlPrefix,
+    path: codexPath,
     context: {
       topics: topicStore.map(([topicName, { entries }]) => ({
         name: capitalize(topicName),
-        url: path.join(urlPrefix, topicName),
+        url: path.join(codexPath, topicName),
         entryCount: entries.length
       }))
     },
