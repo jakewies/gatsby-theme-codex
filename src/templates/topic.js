@@ -1,5 +1,5 @@
 import React from 'react'
-import Topic from '../screens/Topic'
+import Topic from '../components/topic'
 
 export default ({ pageContext }) => {
   return <Topic {...pageContext} />
