@@ -48,9 +48,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
     .reduce((acc, { node }) => {
       const topic = getTopic(node)
 
-      // at this point, any entry that isn't in a topic will not be added
-      // to the map, meaning it won't have a generated page. This is something
-      // that should be supported, i.e., entries with no topic.
       if (!topic) {
         return acc
       }
@@ -62,18 +59,14 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         formatted: null
       }
 
-      // TOPIC LAST MODIFIED
       const modifiedInMs = node.parent.mtimeMs
       const modifiedFormatted = node.parent.modifiedTime
 
-      // compares current val of acc.topic.lastModified (could be nothing) to the entries modified time
-      // and takes the bigger value
       acc[topic].lastModified =
         acc[topic].lastModified.inMs > modifiedInMs
           ? acc[topic].lastModified
           : { inMs: modifiedInMs, formatted: modifiedFormatted }
 
-      // TOPIC ENTRIES
       acc[topic].entries.push({
         id: node.id,
         url: createUrl(node),
@@ -83,7 +76,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       return acc
     }, {})
 
-  // only operate on topics that have entries
   const topicStore = Object.entries(codex).filter(
     ([topicName, { entries }]) => entries.length > 0
   )
@@ -91,7 +83,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   topicStore.forEach(([topicName, { entries, lastModified }]) => {
     const topicUrl = path.join(urlPrefix, topicName)
     const capitalizedTopicName = capitalize(topicName)
-    // Create index page for each Topic
+
     createPage({
       path: topicUrl,
       context: {
@@ -106,7 +98,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       component: Topic
     })
 
-    // Create page for each entry
     entries.forEach(entry => {
       createPage({
         path: entry.url,
@@ -125,7 +116,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
     })
   })
 
-  // Create index page for entire Codex
   createPage({
     path: urlPrefix,
     context: {
