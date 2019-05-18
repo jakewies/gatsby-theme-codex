@@ -1,4 +1,4 @@
-# gatsby-theme-codex
+# gatsby-theme-codex 📖
 
 A Gatsby theme to bootstrap your own digital codex.
 
@@ -8,7 +8,14 @@ A Gatsby theme to bootstrap your own digital codex.
   - [Other solutions](#other-solutions)
 - [Getting started](#getting-started)
   - [Folder structure](#folder-structure)
-  - [Configuration options](#configuration-options)
+- [Configuration options](#configuration-options)
+  - [`src`](#src)
+  - [`codexPath`](#codexpath)
+- [Shadowing components](#shadowing-components)
+  - [`Codex`](#codex)
+  - [`Topic`](#topic)
+  - [`Entry`](#entry)
+- [Project goals](#project-goals)
 
 **_Note_**: _Gatsby themes are an experimental feature. Proceed with caution!_ ⚠️
 
@@ -105,7 +112,7 @@ module.exports = {
 
 #### `codexPath`
 
-By default, `gatsby-theme-codex` will render your codex at `www.yoursite.com/codex/:topic/:entry`. You can change the codex path by passing a `codexPath` option inside of `gatsby-config.js`:
+By default, `gatsby-theme-codex` will render your codex at `www.yoursite.com/codex/:topic-name/:entry-name`. You can change the codex path by passing a `codexPath` option inside of `gatsby-config.js`:
 
 ```js
 // gatsby-config.js
@@ -115,11 +122,68 @@ module.exports = {
     {
       resolve: 'gatsby-theme-codex',
       options: {
-        codexPath: '/custom-path'
+        codexPath: '/custom-path' // make sure to include to forward slash! '/'
       }
     }
   ]
 }
 ```
 
-The example above would render your content at `www.yoursite.com/custom-path/:topic/:entry`.
+The example above would render your content at `www.yoursite.com/custom-path/:topic-name/:entry-name`.
+
+## Shadowing components
+
+Gatsby themes come with a feature known as [component shadowing](https://www.gatsbyjs.org/blog/2019-04-29-component-shadowing/).
+
+> This feature allows users to override a component in order to customize its rendering.
+
+`gatsby-theme-codex` comes with 3 components, each of which can be shadowed. I encourage you to do so, as the default components rendered by `gatsby-theme-codex` are too minimal - even for my taste!
+
+### `Codex`
+
+The `Codex` component is rendered at [`/:codexPath`](#codexpath), and can be shadowed in your project by adding a `codex.js` file at `src/gatsby-theme-codex/components/`. It receives the following props:
+
+```ts
+interace Codex {
+  topics: {
+    name: string;
+    url: string;
+    entryCount: number;
+  }[]
+}
+```
+
+### `Topic`
+
+The `Topic` component is rendered at `/:codexPath/:topic-name`, and can be shadowed in your project by adding a `topic.js` file at `src/gatsby-theme-codex/components/`. It receives the following props:
+
+```ts
+interace Topic {
+  name: string;
+  entries: { 
+    title: string; 
+    url: string; 
+  }[]
+}
+```
+
+### `Entry`
+
+The `Entry` component is rendered at `/:codexPath/:topic-name/:entry-name`, and can be shadowed in your project by adding an `entry.js` file at `src/gatsby-theme-codex/components/`. It receives the following props:
+
+```ts
+interace Entry {
+  children: React.Node;
+  title: string;
+  topic: {
+    name: string;
+    url: string;
+  }
+}
+```
+
+## Project Goals
+
+I plan on evolving this project over time to fit my needs. The goal here is to provide a minimal set of tools that allows the user to create awesome content for themselves, without getting bogged down with features and use cases. 
+
+Features may be added over time, but the goal will always be to let the content shine. The content should be prioritized above all else.
