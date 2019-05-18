@@ -20,7 +20,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       codex: allMdx {
         edges {
           node {
-            id
             parent {
               ... on File {
                 name
@@ -53,7 +52,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       acc[topic] = acc[topic] || {}
       acc[topic].entries = acc[topic].entries || []
       acc[topic].entries.push({
-        id: node.id,
         url: createUrl(node),
         ...node
       })
@@ -73,8 +71,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       path: topicUrl,
       context: {
         name: capitalizedTopicName,
-        entries: entries.map(({ id, parent, url }) => ({
-          id,
+        entries: entries.map(({ parent, url }) => ({
           title: parent.name,
           url
         }))
@@ -86,7 +83,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
       createPage({
         path: entry.url,
         context: {
-          id: entry.id,
           title: entry.parent.name,
           created: entry.parent.birthTime,
           topic: {
