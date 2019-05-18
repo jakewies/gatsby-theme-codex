@@ -8,11 +8,10 @@ function Codex({ topics }) {
         <h2>Codex</h2>
       </header>
       <ul>
-        {topics.map(({ name, url, lastUpdated, entryCount }) => (
+        {topics.map(({ name, url, entryCount }) => (
           <li key={name}>
             <Link to={url}>{name}</Link>
             <p>Entries: {entryCount}</p>
-            <p>last updated {lastUpdated}</p>
           </li>
         ))}
       </ul>

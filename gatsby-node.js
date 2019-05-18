@@ -27,8 +27,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
                 relativePath
                 relativeDirectory
                 sourceInstanceName
-                mtimeMs
-                modifiedTime(fromNow: true)
                 birthTime(formatString: "MMM DD YYYY")
               }
             }
@@ -54,19 +52,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
 
       acc[topic] = acc[topic] || {}
       acc[topic].entries = acc[topic].entries || []
-      acc[topic].lastModified = acc[topic].lastModified || {
-        inMs: null,
-        formatted: null
-      }
-
-      const modifiedInMs = node.parent.mtimeMs
-      const modifiedFormatted = node.parent.modifiedTime
-
-      acc[topic].lastModified =
-        acc[topic].lastModified.inMs > modifiedInMs
-          ? acc[topic].lastModified
-          : { inMs: modifiedInMs, formatted: modifiedFormatted }
-
       acc[topic].entries.push({
         id: node.id,
         url: createUrl(node),
@@ -80,7 +65,7 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
     ([topicName, { entries }]) => entries.length > 0
   )
 
-  topicStore.forEach(([topicName, { entries, lastModified }]) => {
+  topicStore.forEach(([topicName, { entries }]) => {
     const topicUrl = path.join(urlPrefix, topicName)
     const capitalizedTopicName = capitalize(topicName)
 
@@ -91,7 +76,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         entries: entries.map(({ id, parent, url }) => ({
           id,
           title: parent.name,
-          updatedAt: parent.modifiedTime,
           url
         }))
       },
@@ -105,7 +89,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
           id: entry.id,
           title: entry.parent.name,
           created: entry.parent.birthTime,
-          updated: entry.parent.modifiedTime,
           topic: {
             name: capitalizedTopicName,
             url: topicUrl
@@ -119,11 +102,10 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   createPage({
     path: urlPrefix,
     context: {
-      topics: topicStore.map(([topicName, { entries, lastModified }]) => ({
+      topics: topicStore.map(([topicName, { entries }]) => ({
         name: capitalize(topicName),
         url: path.join(urlPrefix, topicName),
-        entryCount: entries.length,
-        lastUpdated: lastModified
+        entryCount: entries.length
       }))
     },
     component: Codex
