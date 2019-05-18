@@ -7,7 +7,6 @@ const Entry = require.resolve('./src/templates/entry')
 exports.createPages = async ({ graphql, actions }, pluginOptions) => {
   const { createPage } = actions
   const { urlPrefix = '/codex' } = pluginOptions
-  const metaKey = '_meta'
 
   const getTopic = node => path.parse(node.parent.relativePath).dir
 
@@ -16,12 +15,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
     return path.join(urlPrefix, topic, node.parent.name)
   }
 
-  // codexData.edges.node.frontmatter is kind of a hack right now.
-  // only _meta.md files support the description frontmatter. entry files
-  // don't. Using frontmatter for topic metadata in a :topic/_meta.md file
-  // was the only solution i could come up with that seems elegant enough
-  // for the end user. There is probably a better way. BUT, this solution
-  // is scalable in case I want to support more metadata in the future.
   const result = await graphql(`
     {
       codex: allMdx {
@@ -33,7 +26,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
             }
             frontmatter {
               title
-              description
             }
             parent {
               ... on File {
@@ -76,16 +68,6 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
         formatted: null
       }
 
-      if (node.parent.name === metaKey) {
-        // this suffers from the problem that if 2 _meta files exist
-        // in a topic, the last one will be used. Probably need to address this.
-        if (node.frontmatter) {
-          acc[topic].description = node.frontmatter.description
-        }
-
-        return acc
-      }
-
       // TOPIC LAST MODIFIED
       const modifiedInMs = node.parent.mtimeMs
       const modifiedFormatted = node.parent.modifiedTime
@@ -112,62 +94,54 @@ exports.createPages = async ({ graphql, actions }, pluginOptions) => {
     ([topicName, { entries }]) => entries.length > 0
   )
 
-  topicStore.forEach(
-    ([topicName, { description: topicDescription, entries, lastModified }]) => {
-      const topicUrl = path.join(urlPrefix, topicName)
-      const capitalizedTopicName = capitalize(topicName)
-      // Create index page for each Topic
-      createPage({
-        path: topicUrl,
-        context: {
-          name: capitalizedTopicName,
-          description: topicDescription,
-          entries: entries.map(
-            ({ id, frontmatter, parent, url, wordCount }) => ({
-              id,
-              title: frontmatter.title,
-              updatedAt: parent.modifiedTime,
-              url,
-              wordCount: wordCount.words
-            })
-          )
-        },
-        component: Topic
-      })
+  topicStore.forEach(([topicName, { entries, lastModified }]) => {
+    const topicUrl = path.join(urlPrefix, topicName)
+    const capitalizedTopicName = capitalize(topicName)
+    // Create index page for each Topic
+    createPage({
+      path: topicUrl,
+      context: {
+        name: capitalizedTopicName,
+        entries: entries.map(({ id, frontmatter, parent, url, wordCount }) => ({
+          id,
+          title: frontmatter.title,
+          updatedAt: parent.modifiedTime,
+          url,
+          wordCount: wordCount.words
+        }))
+      },
+      component: Topic
+    })
 
-      // Create page for each entry
-      entries.forEach(entry => {
-        createPage({
-          path: entry.url,
-          context: {
-            id: entry.id,
-            title: entry.frontmatter.title,
-            created: entry.parent.birthTime,
-            updated: entry.parent.modifiedTime,
-            topic: {
-              name: capitalizedTopicName,
-              url: topicUrl
-            }
-          },
-          component: Entry
-        })
+    // Create page for each entry
+    entries.forEach(entry => {
+      createPage({
+        path: entry.url,
+        context: {
+          id: entry.id,
+          title: entry.frontmatter.title,
+          created: entry.parent.birthTime,
+          updated: entry.parent.modifiedTime,
+          topic: {
+            name: capitalizedTopicName,
+            url: topicUrl
+          }
+        },
+        component: Entry
       })
-    }
-  )
+    })
+  })
 
   // Create index page for entire Codex
   createPage({
     path: urlPrefix,
     context: {
-      topics: topicStore.map(
-        ([topicName, { description, entries, lastModified }]) => ({
-          name: capitalize(topicName),
-          description,
-          url: path.join(urlPrefix, topicName),
-          entryCount: entries.length,
-          lastUpdated: lastModified
-        })
-      )
+      topics: topicStore.map(([topicName, { entries, lastModified }]) => ({
+        name: capitalize(topicName),
+        url: path.join(urlPrefix, topicName),
+        entryCount: entries.length,
+        lastUpdated: lastModified
+      }))
     },
     component: Codex
   })

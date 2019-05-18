@@ -1,12 +1,11 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-function Topic({ name, description, entries }) {
+function Topic({ name, entries }) {
   return (
     <>
       <header>
         <h2>{name}</h2>
-        {description && <p>{description}</p>}
       </header>
       <ul>
         {entries.map(entry => (
