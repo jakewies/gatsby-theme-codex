@@ -180,6 +180,8 @@ interace Entry {
 }
 ```
 
+**Note:** The components above are each _pages_, therefore they receive page-specific props such as `location`.
+
 ## Project Goals
 
 I plan on evolving this project over time to fit my needs. The goal here is to provide a minimal set of tools that allows the user to create awesome content for themselves, without getting bogged down with features and use cases.
