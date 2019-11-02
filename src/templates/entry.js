@@ -11,11 +11,11 @@ export const pageQuery = graphql`
   }
 `
 
-export default ({ pageContext, data }) => {
+export default ({ pageContext, data, ...pageProps }) => {
   const { body } = data.entry
 
   return (
-    <Entry {...pageContext}>
+    <Entry {...pageContext} {...pageProps}>
       <MDXRenderer>{body}</MDXRenderer>
     </Entry>
   )
