@@ -4,16 +4,16 @@ module.exports = options => {
   return {
     plugins: [
       {
-        resolve: 'gatsby-mdx',
-        options: {
-          extensions: ['.md', '.mdx']
-        }
-      },
-      {
         resolve: 'gatsby-source-filesystem',
         options: {
           name: 'codex',
           path: src
+        }
+      },
+      {
+        resolve: 'gatsby-plugin-mdx',
+        options: {
+          extensions: ['.mdx', '.md']
         }
       }
     ]
