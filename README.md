@@ -17,8 +17,6 @@ A Gatsby theme to bootstrap your own digital codex.
   - [`Entry`](#entry)
 - [Project goals](#project-goals)
 
-**_Note_**: _Gatsby themes are an experimental feature. Proceed with caution!_ ⚠️
-
 ## Motivation
 
 I created `gatsby-theme-codex` after reading a very influential post from [Tom Critchlow](https://tomcritchlow.com/2019/02/17/building-digital-garden/) called [Building a digital garden](https://tomcritchlow.com/2019/02/17/building-digital-garden/). This led me to other great pieces of writing, including Robin Sloan's [Stock vs Flow](http://snarkmarket.com/2010/4890).
@@ -57,7 +55,7 @@ Add the following to your `gatsby-config.js` file:
 // gatsby-config.js
 
 module.exports = {
-  __experimentalThemes: ['gatsby-theme-codex']
+  plugins: ['gatsby-theme-codex']
 }
 ```
 
@@ -118,7 +116,7 @@ By default, `gatsby-theme-codex` will render your codex at `www.yoursite.com/cod
 // gatsby-config.js
 
 module.exports = {
-  __experimentalThemes: [
+  plugins: [
     {
       resolve: 'gatsby-theme-codex',
       options: {
