@@ -97,7 +97,7 @@ package.json
 // gatsby-config.js
 
 module.exports = {
-  __experimentalThemes: [
+  plugins: [
     {
       resolve: 'gatsby-theme-codex',
       options: {
