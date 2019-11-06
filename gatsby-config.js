@@ -15,7 +15,8 @@ module.exports = options => {
         options: {
           extensions: ['.mdx', '.md']
         }
-      }
+      },
+      'gatsby-plugin-theme-ui'
     ]
   }
 }
