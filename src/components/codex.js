@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
+import React from 'react'
 import { Link } from 'gatsby'
 
 function Codex({ topics }) {
   return (
-    <>
+    <React.Fragment>
       <header
         sx={{
           // this uses the value from `theme.space[4]`
@@ -24,7 +25,7 @@ function Codex({ topics }) {
           </li>
         ))}
       </ul>
-    </>
+    </React.Fragment>
   )
 }
 
